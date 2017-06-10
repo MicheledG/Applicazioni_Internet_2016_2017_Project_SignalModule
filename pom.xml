@@ -9,7 +9,6 @@
 	<packaging>jar</packaging>
 
 	<name>signal-module</name>
-	<description>Demo project for Spring Boot</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -47,4 +46,6 @@
 	</build>
 
 
+	<description>signal-module handle the RESTful API about:
+- manage the signals;</description>
 </project>
