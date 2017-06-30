@@ -1,12 +1,12 @@
-package it.polito.ai.signalmodule;
+package it.polito.ai.signal;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SignalModuleApplication {
+public class SignalApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SignalModuleApplication.class, args);
+		SpringApplication.run(SignalApplication.class, args);
 	}
 }
