@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,7 +33,7 @@ public class SignalController {
 	 * Create a new signal - only if not existing yet
 	 */
 	@RequestMapping(value = "/signals", method = RequestMethod.POST)
-	public ResponseEntity<String> create(@RequestBody CreatedSignal signal) {
+	public ResponseEntity<String> create(@RequestBody @Validated CreatedSignal signal) {
 		if (!signalService.exists(signal.getCoordinates())) {
 			// Get the username of the authenticated user from the SecurityContext
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -64,11 +65,22 @@ public class SignalController {
 	 * To rate a signal
 	 */
 	@RequestMapping(value = "/signals/{lat}/{lng}/rate", method = RequestMethod.POST)
-	public ResponseEntity<String> rateSignal(@PathVariable("lat") double lat, @PathVariable("lng") double lng, @RequestBody RatingWrapper rating) {
+	public ResponseEntity<String> rateSignal(@PathVariable("lat") String lat, @PathVariable("lng") String lng, @RequestBody @Validated RatingWrapper rating) {
+		System.err.println("ci arrivo");
+		double latitude;
+		double longitude;
+		try {
+			latitude = Double.parseDouble(lat);
+			longitude = Double.parseDouble(lng);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		}		
+		
 		// Get the username of the authenticated user from the SecurityContext
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
-		Coordinates coordinates = new Coordinates(lat, lng);
+		Coordinates coordinates = new Coordinates(latitude, longitude);
 		if (!signalService.exists(coordinates)) {
 			/* The signal you are trying to vote does not exist! */
 			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);			

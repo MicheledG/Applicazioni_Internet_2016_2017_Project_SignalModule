@@ -140,6 +140,7 @@ public class SignalServiceImpl implements SignalService {
 		}
 		else {
 			/* A rate from this username is provided yet, just update rating */
+			System.err.println("arrivo a settare il rate");
 			existingRating.setRate(rating);
 			
 	
