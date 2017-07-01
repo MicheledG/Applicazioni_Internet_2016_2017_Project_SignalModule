@@ -15,11 +15,11 @@ public class Rating {
 	@Indexed
 	private Coordinates coordinates;
 	
-	/* Who did the rate */
+	/* Who is rating */
 	private String username;
 	
-	/* The rate :) */
-	private int rate;
+	/* The rating :) */
+	private int rating;
 
 	public Coordinates getCoordinates() {
 		return coordinates;
@@ -37,11 +37,11 @@ public class Rating {
 		this.username = username;
 	}
 
-	public int getRate() {
-		return rate;
+	public int getRating() {
+		return rating;
 	}
 
-	public void setRate(int rate) {
-		this.rate = rate;
+	public void setRate(int rating) {
+		this.rating = rating;
 	}
 }

@@ -114,7 +114,7 @@ public class SignalServiceImpl implements SignalService {
 		double average = 0.0;
 		if (count!=0) {			
 			for (Iterator it = rates.iterator(); it.hasNext();) {
-				average += ((Rating) it.next()).getRate();
+				average += ((Rating) it.next()).getRating();
 			}
 			average = average/count;
 		}
