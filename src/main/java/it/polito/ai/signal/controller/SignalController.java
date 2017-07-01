@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import it.polito.ai.signal.model.Coordinates;
 import it.polito.ai.signal.model.CreatedSignal;
+import it.polito.ai.signal.model.RateWrapper;
 import it.polito.ai.signal.model.ReferencedSignal;
 import it.polito.ai.signal.model.Signal;
 import it.polito.ai.signal.service.SignalService;
@@ -62,8 +63,8 @@ public class SignalController {
 	/*
 	 * To rate a signal
 	 */
-	@RequestMapping(value = "/signals/{lat}/{lng}/{rate}", method = RequestMethod.POST)
-	public ResponseEntity<String> rateSignal(@PathVariable("lat") double lat, @PathVariable("lng") double lng, @PathVariable("rate") int rate) {
+	@RequestMapping(value = "/signals/{lat}/{lng}/rate", method = RequestMethod.POST)
+	public ResponseEntity<String> rateSignal(@PathVariable("lat") double lat, @PathVariable("lng") double lng, @RequestBody RateWrapper rate) {
 		// Get the username of the authenticated user from the SecurityContext
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
@@ -72,7 +73,7 @@ public class SignalController {
 			/* The signal you are trying to vote does not exist! */
 			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);			
 		}
-		if (signalService.addRate(coordinates, username, rate)) {
+		if (signalService.addRate(coordinates, username, rate.getRate())) {
 			/* All good */
 			return new ResponseEntity<String>(HttpStatus.CREATED);
 		}

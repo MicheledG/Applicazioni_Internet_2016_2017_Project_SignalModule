@@ -18,7 +18,7 @@ import it.polito.ai.signal.repository.SignalRepository;
 
 @Service
 public class SignalServiceImpl implements SignalService {
-	private static final String REMOTE_NICKNAME_ENDPOINT = "http://localhost:8083/profile/nickname";
+	private static final String REMOTE_NICKNAME_ENDPOINT = "http://localhost:8083/profile/nickname?username=";
 	
 	@Autowired
 	SignalRepository signalRepository;
@@ -48,26 +48,20 @@ public class SignalServiceImpl implements SignalService {
 
 	@Override
 	public boolean create(CreatedSignal signal, String username) {
-		/*Map<String, String> requestBody = new HashMap<>();
-		requestBody.put("username", username);
 		String nickname;
 		
-		// Send the profile creation request to the Profile module
+		// ask the profile module to get the nickname from username
 		RestTemplate restTemplate = new RestTemplate();
 		
 		try {
-			// POST request
-			nickname = restTemplate.postForObject(
-					REMOTE_NICKNAME_ENDPOINT,
-					requestBody,
-					String.class
-			);
+			// GET request
+			nickname = restTemplate.getForObject(REMOTE_NICKNAME_ENDPOINT+username, String.class);
+					
 		} catch (Exception e) {
 			// Error getting data from the Profile module
 			System.err.println(e.getMessage());
 			return false;
-		}*/
-		String nickname = "ciaoneproprio"; //mock nickname
+		}
 		Signal created = new Signal();
 		//setting coordinates
 		created.setCoordinates(signal.getCoordinates());
@@ -81,6 +75,8 @@ public class SignalServiceImpl implements SignalService {
 		created.setAddress(signal.getAddress());
 		//setting description
 		created.setDescription(signal.getDescription());
+		//setting average to 0.0
+		created.setAverage(0.0);
 		
 		
 		signalRepository.save(created);
@@ -103,8 +99,8 @@ public class SignalServiceImpl implements SignalService {
 		if (signals==null)
 			return null;
 		for (Iterator it = signals.iterator(); it.hasNext();) {
-			Signal signal = (Signal) it.next();				
-			signal.setAverage(computeAverage(signal));	//setting the right average
+			Signal signal = (Signal) it.next();	
+			//TODO add age check here
 			//maybe signalRepository.save(signal) but it's not important
 		}
 		return signals;
@@ -133,7 +129,6 @@ public class SignalServiceImpl implements SignalService {
 			return false;
 		//updating last reference date
 		existing.setLastAccess(new Date());
-		signalRepository.save(existing);
 		/* Check if a rate for this signal and from this username is provided yet */
 		Rate existingRate = rateRepository.findOneByCoordinatesAndUsername(coordinates, username);
 		if (existingRate == null) {
@@ -141,18 +136,20 @@ public class SignalServiceImpl implements SignalService {
 			existingRate = new Rate();
 			existingRate.setCoordinates(coordinates);
 			existingRate.setRate(rate);
-			existingRate.setUsername(username);
-			
-			rateRepository.save(existingRate);	
-			return true;
+			existingRate.setUsername(username);					
 		}
 		else {
 			/* A rate from this username is provided yet, just update rate */
 			existingRate.setRate(rate);
 			
-			rateRepository.save(existingRate);	
-			return true;			
+	
 		}
+		rateRepository.save(existingRate);
+		/* Let's compute now the new average */
+		existing.setAverage(computeAverage(existing));
+		signalRepository.save(existing);
+		
+		return true;		
 	}	
 
 }
