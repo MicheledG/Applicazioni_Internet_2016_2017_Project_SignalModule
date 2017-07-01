@@ -10,10 +10,10 @@ import org.springframework.web.client.RestTemplate;
 
 import it.polito.ai.signal.model.Coordinates;
 import it.polito.ai.signal.model.CreatedSignal;
-import it.polito.ai.signal.model.Rate;
+import it.polito.ai.signal.model.Rating;
 import it.polito.ai.signal.model.ReferencedSignal;
 import it.polito.ai.signal.model.Signal;
-import it.polito.ai.signal.repository.RateRepository;
+import it.polito.ai.signal.repository.RatingRepository;
 import it.polito.ai.signal.repository.SignalRepository;
 
 @Service
@@ -24,7 +24,7 @@ public class SignalServiceImpl implements SignalService {
 	SignalRepository signalRepository;
 	
 	@Autowired
-	RateRepository rateRepository;
+	RatingRepository ratingRepository;
 
 	@Override
 	public boolean exists(Coordinates coordinates) {
@@ -108,13 +108,13 @@ public class SignalServiceImpl implements SignalService {
 
 	private double computeAverage(Signal signal) {
 		//computing average grade for each signal
-		List<Rate> rates = rateRepository.findByCoordinates(signal.getCoordinates());
+		List<Rating> rates = ratingRepository.findByCoordinates(signal.getCoordinates());
 		
 		int count = rates.size();
 		double average = 0.0;
 		if (count!=0) {			
 			for (Iterator it = rates.iterator(); it.hasNext();) {
-				average += ((Rate) it.next()).getRate();
+				average += ((Rating) it.next()).getRate();
 			}
 			average = average/count;
 		}
@@ -122,7 +122,7 @@ public class SignalServiceImpl implements SignalService {
 	}
 
 	@Override
-	public boolean addRate(Coordinates coordinates, String username, int rate) {
+	public boolean addRating(Coordinates coordinates, String username, int rating) {
 		/* Retrieving the document */ 
 		Signal existing = signalRepository.findOneByCoordinates(coordinates);
 		if (existing == null)
@@ -130,21 +130,21 @@ public class SignalServiceImpl implements SignalService {
 		//updating last reference date
 		existing.setLastAccess(new Date());
 		/* Check if a rate for this signal and from this username is provided yet */
-		Rate existingRate = rateRepository.findOneByCoordinatesAndUsername(coordinates, username);
-		if (existingRate == null) {
+		Rating existingRating = ratingRepository.findOneByCoordinatesAndUsername(coordinates, username);
+		if (existingRating == null) {
 			/* All right, just insert a new rate document */
-			existingRate = new Rate();
-			existingRate.setCoordinates(coordinates);
-			existingRate.setRate(rate);
-			existingRate.setUsername(username);					
+			existingRating = new Rating();
+			existingRating.setCoordinates(coordinates);
+			existingRating.setRate(rating);
+			existingRating.setUsername(username);					
 		}
 		else {
-			/* A rate from this username is provided yet, just update rate */
-			existingRate.setRate(rate);
+			/* A rate from this username is provided yet, just update rating */
+			existingRating.setRate(rating);
 			
 	
 		}
-		rateRepository.save(existingRate);
+		ratingRepository.save(existingRating);
 		/* Let's compute now the new average */
 		existing.setAverage(computeAverage(existing));
 		signalRepository.save(existing);

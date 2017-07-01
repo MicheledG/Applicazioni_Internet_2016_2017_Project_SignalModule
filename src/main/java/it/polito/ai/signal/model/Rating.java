@@ -5,8 +5,8 @@ import javax.persistence.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "rates")
-public class Rate {
+@Document(collection = "ratings")
+public class Rating {
 
 	@Id
 	private String id;

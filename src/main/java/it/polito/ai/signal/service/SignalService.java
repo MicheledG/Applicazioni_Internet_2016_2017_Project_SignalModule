@@ -17,6 +17,6 @@ public interface SignalService {
 	
 	public List<Signal> getAll();
 	
-	public boolean addRate(Coordinates coordinates, String username, int rate);
+	public boolean addRating(Coordinates coordinates, String username, int rating);
 
 }

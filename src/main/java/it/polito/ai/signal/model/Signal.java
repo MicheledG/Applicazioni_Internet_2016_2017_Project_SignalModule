@@ -1,7 +1,6 @@
 package it.polito.ai.signal.model;
 
 import java.util.Date;
-import java.util.HashMap;
 
 import javax.persistence.Id;
 
@@ -31,7 +30,7 @@ public class Signal {
 	@JsonIgnore
 	private Date lastAccess;
 	
-	private double average;		//average rate
+	private double average;		//average rating
 
 	public String getAddress() {
 		return address;
