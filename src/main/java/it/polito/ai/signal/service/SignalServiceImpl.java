@@ -98,8 +98,8 @@ public class SignalServiceImpl implements SignalService {
 		List<Signal> signals = signalRepository.findAll();
 		if (signals==null)
 			return null;
-		for (Iterator it = signals.iterator(); it.hasNext();) {
-			Signal signal = (Signal) it.next();	
+		for (Iterator<Signal> it = signals.iterator(); it.hasNext();) {
+			Signal signal = it.next();	
 			//TODO add age check here
 			//maybe signalRepository.save(signal) but it's not important
 		}
@@ -113,8 +113,8 @@ public class SignalServiceImpl implements SignalService {
 		int count = rates.size();
 		double average = 0.0;
 		if (count!=0) {			
-			for (Iterator it = rates.iterator(); it.hasNext();) {
-				average += ((Rating) it.next()).getRating();
+			for (Iterator<Rating> it = rates.iterator(); it.hasNext();) {
+				average += it.next().getRating();
 			}
 			average = average/count;
 		}

@@ -1,7 +1,5 @@
 package it.polito.ai.signal.model;
 
-import javax.validation.constraints.Pattern;
-
 import org.hibernate.validator.constraints.NotEmpty;
 
 /*
