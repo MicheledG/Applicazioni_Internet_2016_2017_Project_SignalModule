@@ -19,6 +19,7 @@ import it.polito.ai.signal.repository.SignalRepository;
 @Service
 public class SignalServiceImpl implements SignalService {
 	private static final String REMOTE_NICKNAME_ENDPOINT = "http://localhost:8083/profile/nickname?username=";
+	private static final int CLEAR_TIME = 60*1000;
 	
 	@Autowired
 	SignalRepository signalRepository;
@@ -101,7 +102,6 @@ public class SignalServiceImpl implements SignalService {
 		for (Iterator<Signal> it = signals.iterator(); it.hasNext();) {
 			Signal signal = it.next();	
 			//TODO add age check here
-			//maybe signalRepository.save(signal) but it's not important
 		}
 		return signals;
 	}
@@ -151,6 +151,19 @@ public class SignalServiceImpl implements SignalService {
 		signalRepository.save(existing);
 		
 		return true;		
+	}
+
+	@Override
+	public boolean cleanCollection() {
+		List<Signal> signals = signalRepository.findAll();
+		Date now = new Date();
+		for (Iterator<Signal> it = signals.iterator(); it.hasNext();) {
+			Signal s = it.next();
+			if (now.getTime()-s.getLastAccess().getTime()>CLEAR_TIME) {
+				signalRepository.delete(s);
+			}
+		}
+		return true;
 	}	
 
 }

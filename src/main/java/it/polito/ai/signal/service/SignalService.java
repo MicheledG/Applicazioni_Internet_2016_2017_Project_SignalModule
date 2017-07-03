@@ -16,6 +16,7 @@ public interface SignalService {
 	public boolean updateSignal(ReferencedSignal signal);
 	
 	public List<Signal> getAll();
+	public boolean cleanCollection();
 	
 	public boolean addRating(Coordinates coordinates, String username, int rating);
 
