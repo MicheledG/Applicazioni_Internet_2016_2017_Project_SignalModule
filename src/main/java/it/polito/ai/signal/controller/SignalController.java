@@ -64,9 +64,8 @@ public class SignalController {
 	/*
 	 * To rate a signal
 	 */
-	@RequestMapping(value = "/signals/{lat}/{lng}/rate", method = RequestMethod.POST)
-	public ResponseEntity<String> rateSignal(@PathVariable("lat") String lat, @PathVariable("lng") String lng, @RequestBody @Validated RatingWrapper rating) {
-		System.err.println("ci arrivo");
+	@RequestMapping(value = "/signals/{lat}/{lng}/ratings", method = RequestMethod.POST)
+	public ResponseEntity<String> ratingSignal(@PathVariable("lat") String lat, @PathVariable("lng") String lng, @RequestBody @Validated RatingWrapper rating) {
 		double latitude;
 		double longitude;
 		try {
