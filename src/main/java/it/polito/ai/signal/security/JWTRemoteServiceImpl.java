@@ -50,4 +50,34 @@ public class JWTRemoteServiceImpl implements JWTRemoteService {
 		return userAuthentication;
 
 	}
+	
+	@Override
+	public String getRemoteUsername(String token) {
+
+		// Create the request body containing the token
+		Map<String, String> requestBody = new HashMap<>();
+		requestBody.put("token", token);
+		
+		// Send a POST request to the Authentication Module
+		RestTemplate restTemplate = new RestTemplate();
+		RemoteAuthentication remoteAuthentication;
+		try {
+			remoteAuthentication = restTemplate.postForObject(
+					REMOTE_AUTHENTICATION_ENDPOINT,
+					requestBody,
+					RemoteAuthentication.class);
+			
+		} catch (Exception e) {
+			// Authentication failed
+			System.err.println(e.getMessage());
+			return null;
+		}
+		
+		// Create a new Authentication object using the data received from the Authentication Module
+		String username = remoteAuthentication.getUsername();
+		
+		return username;
+
+	}
+	
 }

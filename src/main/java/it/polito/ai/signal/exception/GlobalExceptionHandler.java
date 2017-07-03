@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class GlobalExceptionHandler {
 	
     @ResponseStatus(UNAUTHORIZED)
-    @ExceptionHandler(FailedToAuthenticate.class)
+    @ExceptionHandler(FailedToAuthenticateException.class)
     public void failedToAuthenticate() {
     }
     

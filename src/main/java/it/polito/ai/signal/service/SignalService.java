@@ -19,5 +19,6 @@ public interface SignalService {
 	public boolean cleanCollection();
 	
 	public boolean addRating(Coordinates coordinates, String username, int rating);
+	public void clearRatings();
 
 }

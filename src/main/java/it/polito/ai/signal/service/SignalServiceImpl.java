@@ -96,14 +96,10 @@ public class SignalServiceImpl implements SignalService {
 
 	@Override
 	public List<Signal> getAll() {
-		List<Signal> signals = signalRepository.findAll();
-		if (signals==null)
-			return null;
-		for (Iterator<Signal> it = signals.iterator(); it.hasNext();) {
-			Signal signal = it.next();	
-			//TODO add age check here
-		}
-		return signals;
+		
+		cleanCollection();
+
+		return signalRepository.findAll();
 	}
 
 	private double computeAverage(Signal signal) {
@@ -164,6 +160,19 @@ public class SignalServiceImpl implements SignalService {
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public void clearRatings() {
+		
+		List<Rating> ratings = ratingRepository.findAll();
+		
+		for (Rating r : ratings) {
+			if (signalRepository.findOneByCoordinates(r.getCoordinates()) == null) {
+				ratingRepository.delete(r);
+			}
+		}
+		
 	}	
 
 }

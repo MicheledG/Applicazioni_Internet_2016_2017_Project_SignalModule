@@ -54,7 +54,6 @@ public class SignalController {
 	
 	@RequestMapping(value = "/signals", method = RequestMethod.GET)
 	public ResponseEntity<List<Signal>> getSignals() {
-		signalService.cleanCollection();
 		List<Signal> signals = signalService.getAll();
 		if (signals.isEmpty() || signals == null) {
 			return new ResponseEntity<List<Signal>>(HttpStatus.NO_CONTENT);

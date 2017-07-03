@@ -49,14 +49,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 			// Security policy
 			.authorizeRequests()
+				// Allow only requests on the web socket api
+				.antMatchers("/signal-websocket/**").permitAll()
 				// Excepted for CORS preflighted requests
 				.antMatchers(HttpMethod.OPTIONS).permitAll()
 				// Any request must be authenticated
 				.anyRequest().authenticated().and()
 			// Custom filter for authenticating users using tokens
-			.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+			.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 			// Disable resource caching, enable only if the client app is external to this modoule
-			// .headers().cacheControl();
+			.headers().cacheControl();
 	}	
 
 }
