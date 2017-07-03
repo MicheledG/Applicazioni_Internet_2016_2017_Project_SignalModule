@@ -37,7 +37,7 @@ public class Rating {
 		return rating;
 	}
 
-	public void setRate(int rating) {
+	public void setRating(int rating) {
 		this.rating = rating;
 	}
 }

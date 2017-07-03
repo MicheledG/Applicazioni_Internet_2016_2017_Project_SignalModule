@@ -45,7 +45,7 @@ public class SignalController {
 			String username = auth.getName();
 			
 			// Create a signal
-			signalService.create(signalDto, username);
+			signalService.createSignal(signalDto, username);
 			
 			// Signal created => 201
 			return new ResponseEntity<String>(HttpStatus.CREATED);
@@ -65,7 +65,7 @@ public class SignalController {
 	public ResponseEntity<List<Signal>> getSignals() {
 		
 		// Get all the valid signals
-		List<Signal> signals = signalService.getAll();
+		List<Signal> signals = signalService.readSignals();
 		
 		// There is no signal to return => 204
 		if (signals.isEmpty() || signals == null) {
@@ -98,7 +98,7 @@ public class SignalController {
 		}
 		
 		// Add a rating to the specified signal
-		if (signalService.addRating(coordinates, username, ratingDto.getRating())) {
+		if (signalService.createRating(coordinates, username, ratingDto.getRating())) {
 			// Rating added => 201
 			return new ResponseEntity<String>(HttpStatus.CREATED);
 		} else {

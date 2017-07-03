@@ -19,15 +19,13 @@ public class SignalScheduler {
     SignalService service;
 
     @Scheduled(fixedRate = 5000)
-    public void publishUpdates(){
-       
-        template.convertAndSend("/topic/signals", service.getAll());
-        
+    public void publishUpdates() {
+        template.convertAndSend("/topic/signals", service.readSignals());
     }
     
     @Scheduled(fixedRate = 60 * 1000)
     public void clearRatings() {
-    	service.clearRatings();
+    	service.clearOldRatings();
     }
 	
 }
