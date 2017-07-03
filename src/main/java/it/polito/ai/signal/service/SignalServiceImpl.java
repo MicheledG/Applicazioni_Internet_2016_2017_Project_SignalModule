@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import it.polito.ai.signal.model.Coordinates;
-import it.polito.ai.signal.model.CreatedSignal;
+import it.polito.ai.signal.model.SignalDto;
 import it.polito.ai.signal.model.Rating;
-import it.polito.ai.signal.model.ReferencedSignal;
+import it.polito.ai.signal.model.ReferenceDto;
 import it.polito.ai.signal.model.Signal;
 import it.polito.ai.signal.repository.RatingRepository;
 import it.polito.ai.signal.repository.SignalRepository;
@@ -48,7 +48,7 @@ public class SignalServiceImpl implements SignalService {
 	}
 
 	@Override
-	public boolean create(CreatedSignal signal, String username) {
+	public boolean create(SignalDto signal, String username) {
 		String nickname;
 		
 		// ask the profile module to get the nickname from username
@@ -70,8 +70,8 @@ public class SignalServiceImpl implements SignalService {
 		created.setAuthor(nickname);
 		//setting timestamps
 		Date creationDate = new Date();
-		created.setOrigin(creationDate);
-		created.setLastAccess(creationDate);
+		created.setCreationDate(creationDate);
+		created.setLastReferenceDate(creationDate);
 		//setting address
 		created.setAddress(signal.getAddress());
 		//setting description
@@ -85,11 +85,11 @@ public class SignalServiceImpl implements SignalService {
 	}
 
 	@Override
-	public boolean updateSignal(ReferencedSignal signal) {
+	public boolean updateSignal(ReferenceDto signal) {
 		Signal existing = signalRepository.findOneByCoordinates(signal.getCoordinates());
 		if (existing == null)
 			return false;
-		existing.setLastAccess(new Date());
+		existing.setLastReferenceDate(new Date());
 		signalRepository.save(existing);
 		return true;
 	}
@@ -124,7 +124,7 @@ public class SignalServiceImpl implements SignalService {
 		if (existing == null)
 			return false;
 		//updating last reference date
-		existing.setLastAccess(new Date());
+		existing.setLastReferenceDate(new Date());
 		/* Check if a rate for this signal and from this username is provided yet */
 		Rating existingRating = ratingRepository.findOneByCoordinatesAndUsername(coordinates, username);
 		if (existingRating == null) {
@@ -152,7 +152,7 @@ public class SignalServiceImpl implements SignalService {
 		Date now = new Date();
 		for (Iterator<Signal> it = signals.iterator(); it.hasNext();) {
 			Signal s = it.next();
-			if (now.getTime()-s.getLastAccess().getTime()>CLEAR_TIME) {
+			if (now.getTime()-s.getLastReferenceDate().getTime()>CLEAR_TIME) {
 				signalRepository.delete(s);
 			}
 		}

@@ -1,25 +1,35 @@
 package it.polito.ai.signal.model;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class Coordinates {
-
+/**
+ * A DTO for rating data
+ */
+public class RatingDto {
+	
+	@Min(1)
+	@Max(5)
+	@NotEmpty
+	private int rating;
+	
 	@NotEmpty
 	@Pattern(regexp = "^[-+]?([1-8]?[0-9](.[0-9]+)?|90(.0+)?)$")
 	private double latitude;
-
+	
 	@NotEmpty
-	@Pattern(regexp = "^[-+]?([1-8]?[0-9](.[0-9]+)?|90(.0+)?)$")
+	@Pattern(regexp = "^[-+]?(180(.0+)?|((1[0-7][0-9])|([1-9]?[0-9]))(.[0-9]+)?)$")
 	private double longitude;
-
-	public Coordinates() {
+	
+	public int getRating() {
+		return rating;
 	}
 
-	public Coordinates(double latitude, double longitude) {
-		this.latitude = latitude;
-		this.longitude = longitude;
+	public void setRating(int rating) {
+		this.rating = rating;
 	}
 
 	public double getLatitude() {
@@ -34,8 +44,7 @@ public class Coordinates {
 		return longitude;
 	}
 
-	public void setLongitude(double longitude) {
+	public void setLng(double longitude) {
 		this.longitude = longitude;
 	}
-
 }

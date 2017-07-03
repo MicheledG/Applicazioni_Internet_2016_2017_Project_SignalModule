@@ -2,12 +2,12 @@ package it.polito.ai.signal.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-/*
- * Class to fill in the request body to CREATE a signal
+/**
+ * A DTO for a signal to create.
  */
-
-public class CreatedSignal {
+public class SignalDto {
 	
+	@NotEmpty
 	private Coordinates coordinates;
 
 	@NotEmpty

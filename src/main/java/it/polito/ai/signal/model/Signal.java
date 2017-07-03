@@ -24,12 +24,12 @@ public class Signal {
 	
 	private String description;
 	
-	private Date origin;
+	private Date creationDate;
 	
 	@JsonIgnore
-	private Date lastAccess;
+	private Date lastReferenceDate;
 	
-	private double average;		//average rating
+	private double average;		
 
 	public String getAddress() {
 		return address;
@@ -71,20 +71,20 @@ public class Signal {
 		this.author = author;
 	}
 
-	public Date getOrigin() {
-		return origin;
+	public Date getCreationDate() {
+		return creationDate;
 	}
 
-	public void setOrigin(Date origin) {
-		this.origin = origin;
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 
-	public Date getLastAccess() {
-		return lastAccess;
+	public Date getLastReferenceDate() {
+		return lastReferenceDate;
 	}
 
-	public void setLastAccess(Date lastAccess) {
-		this.lastAccess = lastAccess;
+	public void setLastReferenceDate(Date lastReferenceDate) {
+		this.lastReferenceDate = lastReferenceDate;
 	}
 	
 }

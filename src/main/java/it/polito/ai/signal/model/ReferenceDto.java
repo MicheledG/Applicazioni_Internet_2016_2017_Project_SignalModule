@@ -1,15 +1,13 @@
 package it.polito.ai.signal.model;
 
-/*
- * Class incoming in the request body to REFERENCE an already created signal
+/**
+ * A DTO for a new signal reference.
  */
-
-
-public class ReferencedSignal {
+public class ReferenceDto {
 	
 	private Coordinates coordinates;
 	
-	public ReferencedSignal(Coordinates coordinates) {
+	public ReferenceDto(Coordinates coordinates) {
 		this.coordinates = coordinates;
 	}
 
