@@ -19,7 +19,7 @@ import it.polito.ai.signal.repository.SignalRepository;
 @Service
 public class SignalServiceImpl implements SignalService {
 	private static final String REMOTE_NICKNAME_ENDPOINT = "http://localhost:8083/profile/nickname?username=";
-	private static final int CLEAR_TIME = 5*60*1000;
+	private static final int CLEAR_TIME = 5*60*1000; // 5 minutes
 	
 	@Autowired
 	SignalRepository signalRepository;
@@ -150,9 +150,8 @@ public class SignalServiceImpl implements SignalService {
 	public boolean cleanCollection() {
 		List<Signal> signals = signalRepository.findAll();
 		Date now = new Date();
-		for (Iterator<Signal> it = signals.iterator(); it.hasNext();) {
-			Signal s = it.next();
-			if (now.getTime()-s.getLastReferenceDate().getTime()>CLEAR_TIME) {
+		for (Signal s : signals) {
+			if (now.getTime() - s.getLastReferenceDate().getTime() > CLEAR_TIME) {
 				signalRepository.delete(s);
 			}
 		}

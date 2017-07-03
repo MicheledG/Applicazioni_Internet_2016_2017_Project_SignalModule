@@ -1,17 +1,17 @@
 package it.polito.ai.signal.model;
 
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
 
 public class Coordinates {
 
-	@NotEmpty
-	@Pattern(regexp = "^[-+]?([1-8]?[0-9](.[0-9]+)?|90(.0+)?)$")
+	@NotNull
+	@Range(min = -90, max = 90)
 	private double latitude;
 
-	@NotEmpty
-	@Pattern(regexp = "^[-+]?([1-8]?[0-9](.[0-9]+)?|90(.0+)?)$")
+	@NotNull
+	@Range(min = -180, max = 180)
 	private double longitude;
 
 	public Coordinates() {

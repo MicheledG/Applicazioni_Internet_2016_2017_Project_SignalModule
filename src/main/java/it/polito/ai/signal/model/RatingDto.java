@@ -2,9 +2,9 @@ package it.polito.ai.signal.model;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
 
 /**
  * A DTO for rating data
@@ -13,15 +13,15 @@ public class RatingDto {
 	
 	@Min(1)
 	@Max(5)
-	@NotEmpty
+	@NotNull
 	private int rating;
 	
-	@NotEmpty
-	@Pattern(regexp = "^[-+]?([1-8]?[0-9](.[0-9]+)?|90(.0+)?)$")
+	@NotNull
+	@Range(min = -90, max = 90)
 	private double latitude;
-	
-	@NotEmpty
-	@Pattern(regexp = "^[-+]?(180(.0+)?|((1[0-7][0-9])|([1-9]?[0-9]))(.[0-9]+)?)$")
+
+	@NotNull
+	@Range(min = -180, max = 180)
 	private double longitude;
 	
 	public int getRating() {

@@ -1,19 +1,18 @@
 package it.polito.ai.signal.model;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 /**
  * A DTO for a signal to create.
  */
 public class SignalDto {
 	
-	@NotEmpty
 	private Coordinates coordinates;
 
-	@NotEmpty
+	@NotNull
 	private String address;
 	
-	@NotEmpty
+	@NotNull
 	private String description;
 	
 	public Coordinates getCoordinates() {
