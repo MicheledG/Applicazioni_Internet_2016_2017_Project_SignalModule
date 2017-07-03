@@ -142,8 +142,17 @@ public class SignalController {
 	 * Someone referenced an already existing signal, just update LastReference date
 	 */
 	@RequestMapping(value = "/signals/{lat}/{lng}", method = RequestMethod.PATCH)
-	public ResponseEntity<String> referenceSignal(@PathVariable("lat") double lat, @PathVariable("lng") double lng) {
-		Coordinates coordinates = new Coordinates(lat, lng);
+	public ResponseEntity<String> referenceSignal(@PathVariable("lat") String lat, @PathVariable("lng") String lng) {
+		double latitude;
+		double longitude;
+		try {
+			latitude = Double.parseDouble(lat);
+			longitude = Double.parseDouble(lng);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		}
+		Coordinates coordinates = new Coordinates(latitude, longitude);
 		if (!signalService.exists(coordinates)) {
 			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
 		}
