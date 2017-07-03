@@ -49,10 +49,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 			// Security policy
 			.authorizeRequests()
-				// Allow only requests on the web socket api
-				.antMatchers("/signal-websocket/**").permitAll()
 				// Excepted for CORS preflighted requests
 				.antMatchers(HttpMethod.OPTIONS).permitAll()
+				// Allow only requests on the web socket api
+				.antMatchers("/signal-websocket/**").permitAll()
 				// Any request must be authenticated
 				.anyRequest().authenticated().and()
 			// Custom filter for authenticating users using tokens
