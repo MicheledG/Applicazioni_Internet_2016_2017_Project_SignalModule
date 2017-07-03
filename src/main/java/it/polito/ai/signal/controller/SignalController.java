@@ -37,6 +37,8 @@ public class SignalController {
 	@RequestMapping(value = "/signals", method = RequestMethod.POST)
 	public ResponseEntity<String> create(@RequestBody @Validated SignalDto signalDto) {
 		
+		// If the signal fails validation => 400
+		
 		// Check if a signal with the same coordinates already exists
 		if (!signalService.exists(signalDto.getCoordinates())) {
 			
@@ -84,6 +86,8 @@ public class SignalController {
 	 */
 	@RequestMapping(value = "/ratings", method = RequestMethod.POST)
 	public ResponseEntity<String> addRating(@RequestBody @Validated RatingDto ratingDto) {
+		
+		// If the rating fails validation => 400
 
 		// Get the username of the authenticated user from the SecurityContext
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -102,8 +106,8 @@ public class SignalController {
 			// Rating added => 201
 			return new ResponseEntity<String>(HttpStatus.CREATED);
 		} else {
-			// Adding rating failed => 400
-			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+			// Adding rating failed => 403
+			return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
 		}		
 	}
 	
@@ -114,6 +118,8 @@ public class SignalController {
 	 */
 	@RequestMapping(value = "/signals/reference", method = RequestMethod.POST)
 	public ResponseEntity<String> referenceSignal(@RequestBody @Validated ReferenceDto referenceDto) {
+		
+		// If the reference fails validation => 400
 
 		// If there isn't a signal with that coordinates => 404
 		if (!signalService.exists(referenceDto.getCoordinates())) {

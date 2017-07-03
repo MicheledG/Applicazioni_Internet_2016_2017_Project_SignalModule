@@ -7,6 +7,9 @@ public class ReferenceDto {
 	
 	private Coordinates coordinates;
 	
+	public ReferenceDto() {
+	}
+	
 	public ReferenceDto(Coordinates coordinates) {
 		this.coordinates = coordinates;
 	}
