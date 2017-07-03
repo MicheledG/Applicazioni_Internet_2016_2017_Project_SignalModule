@@ -94,7 +94,7 @@ public class SignalController {
 		String username = auth.getName();
 		
 		// Set the coordinates of the signal to rate
-		Coordinates coordinates = new Coordinates(ratingDto.getLatitude(), ratingDto.getLongitude());
+		Coordinates coordinates = new Coordinates(ratingDto.getCoordinates().getLatitude(), ratingDto.getCoordinates().getLongitude());
 		
 		// If the signal doesn't exist => 404
 		if (!signalService.exists(coordinates)) {
