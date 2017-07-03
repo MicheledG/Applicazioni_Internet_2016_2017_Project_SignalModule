@@ -18,7 +18,7 @@ public class SignalScheduler {
     @Autowired
     SignalService service;
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 2000)
     public void publishUpdates() {
         template.convertAndSend("/topic/signals", service.readSignals());
     }
