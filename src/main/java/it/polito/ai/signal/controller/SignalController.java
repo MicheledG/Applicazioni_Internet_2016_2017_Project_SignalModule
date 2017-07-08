@@ -29,6 +29,26 @@ public class SignalController {
 	SignalService signalService;	
 	
 	/**
+	 * Get all the signals.
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/signals", method = RequestMethod.GET)
+	public ResponseEntity<List<Signal>> getSignals() {
+		
+		// Get all the valid signals
+		List<Signal> signals = signalService.readSignals();
+		
+		// There is no signal to return => 204
+		if (signals.isEmpty() || signals == null) {
+			return new ResponseEntity<List<Signal>>(HttpStatus.NO_CONTENT);
+		}
+		
+		// There are signals to return => 200
+		return new ResponseEntity<List<Signal>>(signals, HttpStatus.OK);
+	}
+	
+	/**
 	 * Create a new signal.
 	 * 
 	 * @param signal
@@ -56,26 +76,6 @@ public class SignalController {
 			// Already exists => 409
 			return new ResponseEntity<String>(HttpStatus.CONFLICT);
 		}		
-	}
-	
-	/**
-	 * Get all the signals.
-	 * 
-	 * @return
-	 */
-	@RequestMapping(value = "/signals", method = RequestMethod.GET)
-	public ResponseEntity<List<Signal>> getSignals() {
-		
-		// Get all the valid signals
-		List<Signal> signals = signalService.readSignals();
-		
-		// There is no signal to return => 204
-		if (signals.isEmpty() || signals == null) {
-			return new ResponseEntity<List<Signal>>(HttpStatus.NO_CONTENT);
-		}
-		
-		// There are signals to return => 200
-		return new ResponseEntity<List<Signal>>(signals, HttpStatus.OK);
 	}
 	
 	/**
@@ -136,64 +136,5 @@ public class SignalController {
 		return new ResponseEntity<String>(HttpStatus.OK);
 		
 	}
-	
-	/*
-	 * To rate a signal
-	 */
-//	@RequestMapping(value = "/signals/{lat}/{lng}/ratings", method = RequestMethod.POST)
-//	public ResponseEntity<String> ratingSignal(@PathVariable("lat") String lat, @PathVariable("lng") String lng, @RequestBody @Validated RatingWrapper rating) {
-//		double latitude;
-//		double longitude;
-//		try {
-//			latitude = Double.parseDouble(lat);
-//			longitude = Double.parseDouble(lng);
-//		}
-//		catch (Exception e) {
-//			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
-//		}		
-//		
-//		// Get the username of the authenticated user from the SecurityContext
-//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//		String username = auth.getName();
-//		Coordinates coordinates = new Coordinates(latitude, longitude);
-//		if (!signalService.exists(coordinates)) {
-//			/* The signal you are trying to vote does not exist! */
-//			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);			
-//		}
-//		if (signalService.addRating(coordinates, username, rating.getRating())) {
-//			/* All good */
-//			return new ResponseEntity<String>(HttpStatus.CREATED);
-//		}
-//		else {
-//			/* Something went wrong - almost impossible */
-//			return new ResponseEntity<String>(HttpStatus.SERVICE_UNAVAILABLE);
-//		}		
-//	}
-	
-//	/*
-//	 * Someone referenced an already existing signal, just update LastReference date
-//	 */
-//	@RequestMapping(value = "/signals/{lat}/{lng}", method = RequestMethod.PATCH)
-//	public ResponseEntity<String> referenceSignal(@PathVariable("lat") String lat, @PathVariable("lng") String lng) {
-//		double latitude;
-//		double longitude;
-//		try {
-//			latitude = Double.parseDouble(lat);
-//			longitude = Double.parseDouble(lng);
-//		}
-//		catch (Exception e) {
-//			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
-//		}
-//		Coordinates coordinates = new Coordinates(latitude, longitude);
-//		if (!signalService.exists(coordinates)) {
-//			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
-//		}
-//		ReferencedSignal signal = new ReferencedSignal(coordinates);
-//		if (!signalService.updateSignal(signal)) {
-//			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);	//JUST IN CASE
-//		}
-//		
-//		return new ResponseEntity<String>(HttpStatus.OK);
-//		
-//	}
+
 }
