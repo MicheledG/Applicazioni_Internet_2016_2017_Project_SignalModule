@@ -18,7 +18,7 @@ public class SignalSocketController {
     
     @MessageMapping("/signal")
     @SendTo("/topic/signals")
-    public List<Signal> getScores() {
+    public List<Signal> getSignals() {
         
         List<Signal> signals = service.readSignals();
         
