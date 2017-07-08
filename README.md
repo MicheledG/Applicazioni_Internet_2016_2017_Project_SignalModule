@@ -33,9 +33,8 @@ If a wrong authentication token is provided, a `401 Unauthorized` code is return
 
 ## Web Socket
 
-|          Configuration         |
-|----------|---------------------|
 | Endpoint | `/signal-websocket` |
+|----------|---------------------|
 | Topic    | `/topic/signals`    |
 | App      | `/app/signal`       |
 | Message  | `Signal`            |
