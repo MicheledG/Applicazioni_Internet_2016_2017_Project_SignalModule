@@ -69,6 +69,6 @@
 	</build>
 
 
-	<description>signal-module handle the RESTful API about:
-- manage the signals;</description>
+	<description>Signal Microservice</description>
+	
 </project>

@@ -40,24 +40,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                // Disable CSRF protection since tokens are immune to it
-                .csrf().disable()
-                // If the user is not authenticated, returns 401
-                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
-                // This is a stateless application, disable sessions
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                // Security policy
-                .authorizeRequests()
-                // Excepted for CORS preflighted requests
-                .antMatchers(HttpMethod.OPTIONS).permitAll()
-                // Allow only requests on the web socket api
-                .antMatchers("/signal-websocket/**").permitAll()
-                // Any request must be authenticated
-                .anyRequest().authenticated().and()
-                // Custom filter for authenticating users using tokens
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                // Disable resource caching, enable only if the client app is external to this modoule
-                .headers().cacheControl();
+	        // Disable CSRF protection since tokens are immune to it
+	        .csrf().disable()
+	        // If the user is not authenticated, returns 401
+	        .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
+	        // This is a stateless application, disable sessions
+	        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+	        // Security policy
+	        .authorizeRequests()
+	        // Excepted for CORS preflighted requests
+	        .antMatchers(HttpMethod.OPTIONS).permitAll()
+	        // Allow only requests on the web socket api
+	        .antMatchers("/signal-websocket/**").permitAll()
+	        // Any request must be authenticated
+	        .anyRequest().authenticated().and()
+	        // Custom filter for authenticating users using tokens
+	        .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+	        // Disable resource caching
+	        .headers().cacheControl();
     }
 
 }
