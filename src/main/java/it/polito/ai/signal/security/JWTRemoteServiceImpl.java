@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class JWTRemoteServiceImpl implements JWTRemoteService {
 	
-	private static final String REMOTE_AUTHENTICATION_ENDPOINT = "http://localhost:8081/authenticate";
+	private static final String REMOTE_AUTHENTICATION_ENDPOINT = "https://localhost:8081/authenticate";
 	
 	@Override
 	public Authentication getRemoteAuthentication(String token) {

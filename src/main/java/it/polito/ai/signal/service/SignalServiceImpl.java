@@ -18,7 +18,7 @@ import it.polito.ai.signal.repository.SignalRepository;
 @Service
 public class SignalServiceImpl implements SignalService {
 	
-	private static final String REMOTE_NICKNAME_ENDPOINT = "http://localhost:8083/profile/nickname?username=";
+	private static final String REMOTE_NICKNAME_ENDPOINT = "https://localhost:8083/profile/nickname?username=";
 	private static final int LIFETIME = 5*60*1000; // 5 minutes
 	
 	@Autowired
